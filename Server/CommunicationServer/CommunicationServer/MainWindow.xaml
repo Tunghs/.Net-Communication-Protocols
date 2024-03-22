@@ -1,0 +1,107 @@
+﻿<Window
+    x:Class="CommunicationServer.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CommunicationServer"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <ToggleButton
+                x:Name="IpcClientBtn"
+                Width="120"
+                Height="30">
+                <ToggleButton.Style>
+                    <Style TargetType="{x:Type ToggleButton}">
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Content" Value="IPC Stop" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Content" Value="IPC Start" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+
+            <ToggleButton
+                x:Name="RestApiBtn"
+                Width="120"
+                Height="30"
+                Margin="10,0,0,0"
+                Click="RestApiBtn_Click">
+                <ToggleButton.Style>
+                    <Style TargetType="{x:Type ToggleButton}">
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Content" Value="RestAPI Stop" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Content" Value="RestAPI Start" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+
+            <ToggleButton
+                x:Name="WcfBtn"
+                Width="120"
+                Height="30"
+                Margin="10,0,0,0">
+                <ToggleButton.Style>
+                    <Style TargetType="{x:Type ToggleButton}">
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Content" Value="WCF Stop" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Content" Value="WCF Start" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox
+                x:Name="MessageTbx"
+                Height="24"
+                VerticalContentAlignment="Center" />
+
+            <Button
+                x:Name="SendBtn"
+                Grid.Column="1"
+                Width="60"
+                Click="SendBtn_Click"
+                Content="Send" />
+        </Grid>
+
+        <TextBox
+            x:Name="LogTbx"
+            Grid.Row="4"
+            AcceptsReturn="True"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Visible"
+            VirtualizingPanel.IsVirtualizing="True" />
+    </Grid>
+</Window>

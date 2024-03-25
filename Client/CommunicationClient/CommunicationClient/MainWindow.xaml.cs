@@ -24,5 +24,44 @@ namespace CommunicationClient
         {
             InitializeComponent();
         }
+
+        private void SendBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(MessageTbx.Text))
+            {
+                return;
+            }
+
+            UpdateLog(MessageTbx.Text, true);
+            MessageTbx.Text = string.Empty;
+        }
+
+        private void UpdateLog(string message, bool isServer)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(delegate ()
+            {
+
+                if (isServer)
+                {
+                    message = "Server: " + message;
+                }
+                else
+                {
+                    message = "Client: " + message;
+                }
+
+                LogTbx.AppendText(message);
+                LogTbx.AppendText(Environment.NewLine);
+                LogTbx.ScrollToEnd();
+            }));
+        }
+
+        private void RestApiBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (RestApiBtn.IsChecked.Value)
+            {
+
+            }
+        }
     }
 }

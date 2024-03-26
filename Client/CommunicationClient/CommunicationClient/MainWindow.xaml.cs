@@ -1,6 +1,9 @@
-﻿using System;
+﻿using CommunicationClient.Protocols;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +23,8 @@ namespace CommunicationClient
     /// </summary>
     public partial class MainWindow : Window
     {
+        private RestAPI _client;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,8 +37,21 @@ namespace CommunicationClient
                 return;
             }
 
-            UpdateLog(MessageTbx.Text, true);
+            if (RestApiBtn.IsChecked.Value)
+            {
+                SendPostMsg();
+            }
+            
             MessageTbx.Text = string.Empty;
+        }
+
+        private async void SendPostMsg()
+        {
+            UpdateLog(MessageTbx.Text, false);
+            var values =
+                new Dictionary<string, string> { { "username", "myUser" }, { "password", "myPassword" } };
+
+            await _client.PostAsync(values);
         }
 
         private void UpdateLog(string message, bool isServer)
@@ -60,7 +78,7 @@ namespace CommunicationClient
         {
             if (RestApiBtn.IsChecked.Value)
             {
-
+                _client = new RestAPI();
             }
         }
     }

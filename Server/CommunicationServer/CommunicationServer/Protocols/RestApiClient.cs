@@ -1,44 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace CommunicationServer.Protocols
 {
-    internal class RestAPI
+    internal class RestApiClient
     {
-        private HttpListener listener;
-
+        private HttpListener _listener;
         public Action<string> UpdatedMessage { get; set; }
 
         public void Initialize()
         {
-            if (listener == null)
+            if (_listener == null)
             {
-                listener = new HttpListener();
-                listener.Prefixes.Add(string.Format("http://+:9686/"));
+                _listener = new HttpListener();
+                _listener.Prefixes.Add(string.Format("http://+:9686/"));
                 Start();
             }
         }
 
         private void Start()
         {
-            if (!listener.IsListening)
+            if (!_listener.IsListening)
             {
-                listener.Start();
+                _listener.Start();
                 Task.Factory.StartNew(() =>
                 {
-                    while (listener != null)
+                    while (_listener != null)
                     {
-                        HttpListenerContext context = this.listener.GetContext();
+                        HttpListenerContext context = this._listener.GetContext();
 
                         string rawurl = context.Request.RawUrl;
                         string httpmethod = context.Request.HttpMethod;
-
+                        string text;
+                        using (var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding))
+                        {
+                            text = reader.ReadToEnd();
+                        }
                         string result = "";
 
                         result += string.Format("httpmethod = {0}\r\n", httpmethod);

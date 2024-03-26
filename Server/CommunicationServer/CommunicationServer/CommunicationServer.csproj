@@ -55,8 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Protocols\IPC.cs" />
-    <Compile Include="Protocols\RestAPI.cs" />
+    <Compile Include="Protocols\IpcClient.cs" />
+    <Compile Include="Protocols\RestApiClient.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CommunicationServer.Protocols
 {
-    internal class RestApiClient
+    internal class RestApiServer
     {
         private HttpListener _listener;
         public Action<string> UpdatedMessage { get; set; }

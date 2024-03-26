@@ -62,7 +62,7 @@ namespace CommunicationServer
         {
             if (RestApiBtn.IsChecked.Value)
             {
-                RestApiClient api = new RestApiClient();
+                RestApiServer api = new RestApiServer();
                 api.UpdatedMessage += ((m) => UpdateLog(m, false));
                 api.Initialize();
             }

@@ -29,7 +29,7 @@ namespace CommunicationServer.Protocols
                 {
                     while (_listener != null)
                     {
-                        HttpListenerContext context = this._listener.GetContext();
+                        HttpListenerContext context = _listener.GetContext();
 
                         string rawurl = context.Request.RawUrl;
                         string httpmethod = context.Request.HttpMethod;
@@ -46,7 +46,6 @@ namespace CommunicationServer.Protocols
                         UpdatedMessage?.Invoke(result);
 
                         context.Response.Close();
-
                     }
                 });
             }

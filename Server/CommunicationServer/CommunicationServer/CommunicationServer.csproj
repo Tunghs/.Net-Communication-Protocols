@@ -78,10 +78,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommunicationView.xaml.cs">
+      <DependentUpon>CommunicationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Protocols\IpcServer.cs" />
     <Compile Include="Protocols\IServer.cs" />
     <Compile Include="Protocols\RestApiServer.cs" />
     <Compile Include="Protocols\TcpIpServer.cs" />
+    <Page Include="CommunicationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -29,10 +29,10 @@
                     <Style TargetType="{x:Type ToggleButton}">
                         <Style.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Content" Value="Server On" />
+                                <Setter Property="Content" Value="Server Off" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
-                                <Setter Property="Content" Value="Server Off" />
+                                <Setter Property="Content" Value="Server On" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>

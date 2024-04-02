@@ -45,7 +45,7 @@ namespace CommunicationServer
                     Server = new TcpIpServer();
                     break;
                 case CommunicationMode.REST:
-                    Server = new TcpIpServer("", 23);
+                    Server = new RestApiServer();
                     break;
                 case CommunicationMode.IPC:
                     Server = new IpcServer();

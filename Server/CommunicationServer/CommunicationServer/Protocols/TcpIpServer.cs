@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace CommunicationServer.Protocols
 {
-    internal class TcpIpServer
+    internal class TcpIpServer : IServer
     {
         #region Fields
         private Socket _server;
@@ -18,23 +18,35 @@ namespace CommunicationServer.Protocols
         private int _portNumber;
         #endregion
 
+        public TcpIpServer()
+        {
+
+        }
+
         public TcpIpServer(string address, int portNumber)
         {
             _address = address;
             _portNumber = portNumber;
         }
 
-        public void Connect()
+        public Action<string> RecieveMessage { get; set; }
+
+        public void Off()
+        {
+            _server.Close();
+        }
+
+        public void On()
         {
             try
             {
-                _server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-                _server.Bind(new IPEndPoint(IPAddress.Parse(_address), _portNumber));
-                _server.Listen(1);
+                Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                server.Bind(new IPEndPoint(IPAddress.Any, 12000));
+                server.Listen(1);
 
                 SocketAsyncEventArgs sockAsync = new SocketAsyncEventArgs();
-                sockAsync.Completed += new EventHandler<SocketAsyncEventArgs>(Completed);
-                _server.AcceptAsync(sockAsync);
+                sockAsync.Completed += new EventHandler<SocketAsyncEventArgs>(sockAsync_Completed);
+                server.AcceptAsync(sockAsync);
             }
             catch (Exception ex)
             {
@@ -47,24 +59,22 @@ namespace CommunicationServer.Protocols
         /// </summary>
         /// <param name="sender">이벤트 발생시킨 소켓 </param>
         /// <param name="e"></param>
-        private void Completed(object sender, SocketAsyncEventArgs e)
+        private void sockAsync_Completed(object sender, SocketAsyncEventArgs e)
         {
             try
             {
                 Socket server = (Socket)sender;
                 Socket client = e.AcceptSocket;
-
                 byte[] name = new byte[100];
                 client.Receive(name);
 
-                //16진수 -> string형으로 parsing
-                String str_data = Encoding.UTF8.GetString(name).Trim().Replace("\0", "");
+                String dataInfo = Encoding.UTF8.GetString(name).Trim().Replace("\0", "");
 
-                //string -> JObject parsing
-                //JObject jobj = JObject.Parse(str_data);
+                //dataInfo = crypto.AESDecrypt256(dataInfo, cryptoKey);
 
-                ////json형식에서 key가 text인 value값을 string형에 담기
-                //string user = jobj["text"].ToString();
+                //JObject jobj = JObject.Parse(dataInfo);
+
+                // string user = jobj["text"].ToString();
 
                 SocketAsyncEventArgs receiveAsync = new SocketAsyncEventArgs();
                 receiveAsync.Completed += new EventHandler<SocketAsyncEventArgs>(receiveAsync_Completed);
@@ -72,23 +82,23 @@ namespace CommunicationServer.Protocols
                 receiveAsync.UserToken = client;
                 client.ReceiveAsync(receiveAsync);
 
-                //StringBuilder sb = new StringBuilder();
-                //sb.AppendLine("*********** " + user + "- Connected ***********");
-                //sb.AppendLine();
-
-                //Invoke((MethodInvoker)delegate
-                //{
-                //    rtb_text.AppendText(sb.ToString());
-                //    lb_client_list.Items.Add(user);
-                //});
-
                 e.AcceptSocket = null;
                 server.AcceptAsync(e);
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
+        }
+
+        public void Send(string data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsRunning()
+        {
+            return false;
         }
 
         /// <summary>
@@ -112,8 +122,8 @@ namespace CommunicationServer.Protocols
                 if (dataInfo == "")
                     return;
 
-                //dataInfo = crypto.AESDecrypt256(dataInfo, cryptoKey);
-                //JObject jobj = JObject.Parse(dataInfo);
+                // dataInfo = crypto.AESDecrypt256(dataInfo, cryptoKey);
+                // JObject jobj = JObject.Parse(dataInfo);
 
                 //if (searchSocket(client) == "")
                 //{
@@ -127,10 +137,7 @@ namespace CommunicationServer.Protocols
                 //StringBuilder sb = new StringBuilder();
                 //sb.AppendLine("[" + Name + "]" + " -----> " + jobj["text"].ToString());
 
-                //Invoke((MethodInvoker)delegate
-                //{
-                //    rtb_text.AppendText(sb.ToString());
-                //});
+                RecieveMessage?.Invoke(dataInfo);
 
                 client.ReceiveAsync(e);
 

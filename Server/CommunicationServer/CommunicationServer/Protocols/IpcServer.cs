@@ -6,19 +6,37 @@ using System.Threading.Tasks;
 
 namespace CommunicationServer.Protocols
 {
-    internal class IpcServer
+    internal class IpcServer : IServer
     {
         static string tx = string.Empty;
-        static bool isStop = false;
+        static bool isRunning = false;
+
+        public Action<string> RecieveMessage { get; set; }
+
+        public void Off()
+        {
+            isRunning = false;
+        }
+
+        public bool IsRunning()
+        {
+            return isRunning;
+        }
 
         [STAThread]
         [SecurityPermission(SecurityAction.Demand)]
-        public void Run(string[] args)
+        public void On()
         {
+            isRunning = true;
             Task.Run(() =>
             {
                 RunServer();
             });
+        }
+
+        public void Send(string data)
+        {
+            tx = data;
         }
 
         private void RunServer()
@@ -31,17 +49,21 @@ namespace CommunicationServer.Protocols
 
             while (true)
             {
+                if (!isRunning)
+                {
+                    break;
+                }
+
                 if (!string.IsNullOrEmpty(tx))
                 {
                     if (tx.ToUpper() == "Q")
                     {
-                        isStop = true;
+                        isRunning = true;
                         break;
                     }
 
                     ro.ID = id;
                     ro.Message = tx;
-                    Console.WriteLine($"서버 메세지 : {tx}");
                     ro.IsServerMessage = true;
                     tx = string.Empty;
                 }
@@ -52,7 +74,7 @@ namespace CommunicationServer.Protocols
                     {
                         string clientID = ro.ID;
                         string message = ro.Message;
-                        Console.WriteLine($"{clientID}의 메세지 : {message}");
+                        RecieveMessage?.Invoke(message);
                     }
 
                     ro.IsClientMessage = false;

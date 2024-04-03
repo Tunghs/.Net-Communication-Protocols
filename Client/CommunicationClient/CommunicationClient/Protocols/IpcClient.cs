@@ -27,7 +27,8 @@ namespace CommunicationClient.Protocols
         {
             RemoteObject.CreateClient();
             removeObject = new RemoteObject();
-
+            removeObject.ID = "client";
+            isRunning = true;
             Task.Run(() =>
             {
                 RunServerWatching();
@@ -38,7 +39,7 @@ namespace CommunicationClient.Protocols
         {
             while (true)
             {
-                if (isRunning)
+                if (!isRunning)
                     break;
 
                 if (removeObject.IsServerMessage)
@@ -49,7 +50,7 @@ namespace CommunicationClient.Protocols
             }
         }
 
-        public void SendAsync(string data)
+        public void Send(string data)
         {
             removeObject.IsClientMessage = true;
             removeObject.Message = data;

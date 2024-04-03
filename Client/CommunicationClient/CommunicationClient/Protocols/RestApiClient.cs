@@ -13,7 +13,7 @@ namespace CommunicationClient.Protocols
         private string _url = "http://127.0.0.1:9686/";
         static bool isRunning = false;
 
-        public Action<string> RecieveMessage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Action<string> RecieveMessage { get; set; }
 
         public bool IsRunning()
         {
@@ -32,7 +32,7 @@ namespace CommunicationClient.Protocols
             isRunning = true;
         }
 
-        public async Task SendAsync(string data)
+        public async void Send(string data)
         {
             await PostAsync(new Dictionary<string, string> { { "text", data } });
         }

@@ -8,6 +8,6 @@ namespace CommunicationClient.Protocols
         Action<string> RecieveMessage { get; set; }
         void On();
         void Off();
-        void SendAsync(string data);
+        void Send(string data);
     }
 }

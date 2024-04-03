@@ -83,8 +83,8 @@
     </Compile>
     <Compile Include="Protocols\IClient.cs" />
     <Compile Include="Protocols\IpcClient.cs" />
-    <Compile Include="Protocols\RestAPI.cs" />
     <Compile Include="Protocols\RestApiClient.cs" />
+    <Compile Include="Protocols\TcpIpClient.cs" />
     <Page Include="CommunicationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

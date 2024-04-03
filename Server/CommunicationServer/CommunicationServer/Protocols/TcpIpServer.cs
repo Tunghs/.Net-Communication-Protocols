@@ -33,6 +33,9 @@ namespace CommunicationServer.Protocols
 
         public void Off()
         {
+            if (_server == null)
+                return;
+
             _server.Close();
         }
 

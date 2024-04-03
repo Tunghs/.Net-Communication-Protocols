@@ -23,15 +23,15 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <ToggleButton x:Name="ServerTbtn" Click="ServerTbtn_Click">
+            <ToggleButton x:Name="ClientTbtn" Click="ClientTbtn_Click">
                 <ToggleButton.Style>
                     <Style TargetType="{x:Type ToggleButton}">
                         <Style.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Content" Value="Server Off" />
+                                <Setter Property="Content" Value="Client Off" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
-                                <Setter Property="Content" Value="Server On" />
+                                <Setter Property="Content" Value="Client On" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>

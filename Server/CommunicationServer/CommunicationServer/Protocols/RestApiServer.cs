@@ -66,7 +66,7 @@ namespace CommunicationServer.Protocols
                         result += string.Format("httpmethod = {0}\r\n", httpmethod);
                         result += string.Format("rawurl = {0}\r\n", rawurl);
 
-                        RecieveMessage?.Invoke(rawurl);
+                        RecieveMessage?.Invoke(text);
 
                         context.Response.Close();
                     }

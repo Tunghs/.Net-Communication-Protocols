@@ -31,7 +31,7 @@ namespace CommunicationClient
             switch (mode)
             {
                 case CommunicationMode.TcpIp:
-                    Client = new IpcClient();
+                    Client = new TcpIpClient();
                     break;
                 case CommunicationMode.REST:
                     Client = new RestApiClient();
@@ -47,7 +47,7 @@ namespace CommunicationClient
             Client.RecieveMessage += RecieveServerMessage;
         }
 
-        private void ServerTbtn_Click(object sender, RoutedEventArgs e)
+        private void ClientTbtn_Click(object sender, RoutedEventArgs e)
         {
             ToggleButton button = (ToggleButton)sender;
             if (button.IsChecked.Value)
@@ -72,8 +72,8 @@ namespace CommunicationClient
             }
 
             string message = MessageTbx.Text;
-            Client.SendAsync(message);
-            ShowMessage("Client --> " + "msg");
+            Client.Send(message);
+            ShowMessage("Client --> " + message);
 
             MessageTbx.Text = string.Empty;
         }

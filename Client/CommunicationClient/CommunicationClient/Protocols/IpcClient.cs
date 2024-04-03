@@ -19,7 +19,8 @@ namespace CommunicationClient.Protocols
 
         public void Off()
         {
-            throw new NotImplementedException();
+            removeObject = null;
+            isRunning = false;
         }
 
         public void On()
@@ -48,7 +49,7 @@ namespace CommunicationClient.Protocols
             }
         }
 
-        public void Send(string data)
+        public void SendAsync(string data)
         {
             removeObject.IsClientMessage = true;
             removeObject.Message = data;

@@ -34,8 +34,6 @@ namespace CommunicationClient
         List<CommunicationView> views;
         List<TabItem> tabs;
 
-        private RestAPI _client;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -53,57 +51,5 @@ namespace CommunicationClient
                 views[index].CloseServer += (() => { tabs.ForEach(x => x.IsEnabled = true); ServerTab.Items.Refresh(); });
             }
         }
-
-        //private void SendBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (string.IsNullOrEmpty(MessageTbx.Text))
-        //    {
-        //        return;
-        //    }
-
-        //    if (RestApiBtn.IsChecked.Value)
-        //    {
-        //        SendPostMsg();
-        //    }
-
-        //    MessageTbx.Text = string.Empty;
-        //}
-
-        //private async void SendPostMsg()
-        //{
-        //    UpdateLog(MessageTbx.Text, false);
-        //    var values =
-        //        new Dictionary<string, string> { { "username", "myUser" }, { "password", "myPassword" } };
-
-        //    await _client.PostAsync(values);
-        //}
-
-        //private void UpdateLog(string message, bool isServer)
-        //{
-        //    Application.Current.Dispatcher.BeginInvoke(new Action(delegate ()
-        //    {
-
-        //        if (isServer)
-        //        {
-        //            message = "Client: " + message;
-        //        }
-        //        else
-        //        {
-        //            message = "Client: " + message;
-        //        }
-
-        //        LogTbx.AppendText(message);
-        //        LogTbx.AppendText(Environment.NewLine);
-        //        LogTbx.ScrollToEnd();
-        //    }));
-        //}
-
-        //private void RestApiBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (RestApiBtn.IsChecked.Value)
-        //    {
-        //        _client = new RestAPI();
-        //    }
-        //}
     }
 }

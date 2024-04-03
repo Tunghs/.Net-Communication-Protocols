@@ -34,7 +34,7 @@ namespace CommunicationClient
                     Client = new IpcClient();
                     break;
                 case CommunicationMode.REST:
-                    Client = new IpcClient();
+                    Client = new RestApiClient();
                     break;
                 case CommunicationMode.IPC:
                     Client = new IpcClient();
@@ -72,7 +72,7 @@ namespace CommunicationClient
             }
 
             string message = MessageTbx.Text;
-            Client.Send(message);
+            Client.SendAsync(message);
             ShowMessage("Client --> " + "msg");
 
             MessageTbx.Text = string.Empty;

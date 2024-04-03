@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace CommunicationServer.Protocols
+namespace CommunicationClient.Protocols
 {
-    public interface IServer
+    public interface IClient
     {
         bool IsRunning();
         Action<string> RecieveMessage { get; set; }

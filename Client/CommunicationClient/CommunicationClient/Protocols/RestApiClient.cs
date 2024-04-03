@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CommunicationClient.Protocols
 {
-    internal class IPC
+    internal class RestApiClient
     {
     }
 }

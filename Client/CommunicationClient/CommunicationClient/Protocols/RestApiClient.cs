@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -10,7 +11,7 @@ namespace CommunicationClient.Protocols
     internal class RestApiClient : IClient
     {
         private HttpClient _client;
-        private string _url = "http://127.0.0.1:9686/";
+        private string _url = "http://127.0.0.1:8788/";
         static bool isRunning = false;
 
         public Action<string> RecieveMessage { get; set; }
@@ -41,6 +42,7 @@ namespace CommunicationClient.Protocols
         {
             var postData = new FormUrlEncodedContent(data);
             var response = await _client.PostAsync(_url, postData);
+
             return response;
         }
     }

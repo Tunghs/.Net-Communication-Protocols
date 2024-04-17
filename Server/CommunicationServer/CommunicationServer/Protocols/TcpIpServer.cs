@@ -43,13 +43,13 @@ namespace CommunicationServer.Protocols
         {
             try
             {
-                Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                server.Bind(new IPEndPoint(IPAddress.Any, 12000));
-                server.Listen(1);
+                _server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                _server.Bind(new IPEndPoint(IPAddress.Any, 8788));
+                _server.Listen(1);
 
                 SocketAsyncEventArgs sockAsync = new SocketAsyncEventArgs();
                 sockAsync.Completed += new EventHandler<SocketAsyncEventArgs>(sockAsync_Completed);
-                server.AcceptAsync(sockAsync);
+                _server.AcceptAsync(sockAsync);
             }
             catch (Exception ex)
             {
@@ -66,18 +66,11 @@ namespace CommunicationServer.Protocols
         {
             try
             {
-                Socket server = (Socket)sender;
                 Socket client = e.AcceptSocket;
                 byte[] name = new byte[100];
                 client.Receive(name);
 
                 String dataInfo = Encoding.UTF8.GetString(name).Trim().Replace("\0", "");
-
-                //dataInfo = crypto.AESDecrypt256(dataInfo, cryptoKey);
-
-                //JObject jobj = JObject.Parse(dataInfo);
-
-                // string user = jobj["text"].ToString();
 
                 SocketAsyncEventArgs receiveAsync = new SocketAsyncEventArgs();
                 receiveAsync.Completed += new EventHandler<SocketAsyncEventArgs>(receiveAsync_Completed);
@@ -86,7 +79,6 @@ namespace CommunicationServer.Protocols
                 client.ReceiveAsync(receiveAsync);
 
                 e.AcceptSocket = null;
-                server.AcceptAsync(e);
             }
             catch (Exception ex)
             {
@@ -125,25 +117,9 @@ namespace CommunicationServer.Protocols
                 if (dataInfo == "")
                     return;
 
-                // dataInfo = crypto.AESDecrypt256(dataInfo, cryptoKey);
-                // JObject jobj = JObject.Parse(dataInfo);
-
-                //if (searchSocket(client) == "")
-                //{
-                //    MessageBox.Show("접속 클라이언트를 찾을 수 없습니다.");
-                //    return;
-                //}
-                //else
-                //    Name = searchSocket(client);
-
-
-                //StringBuilder sb = new StringBuilder();
-                //sb.AppendLine("[" + Name + "]" + " -----> " + jobj["text"].ToString());
-
                 RecieveMessage?.Invoke(dataInfo);
 
                 client.ReceiveAsync(e);
-
             }
         }
     }

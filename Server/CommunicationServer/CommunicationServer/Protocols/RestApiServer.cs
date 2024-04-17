@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace CommunicationServer.Protocols
 {
@@ -32,7 +33,7 @@ namespace CommunicationServer.Protocols
             if (_listener == null)
             {
                 _listener = new HttpListener();
-                _listener.Prefixes.Add(string.Format("http://+:9686/"));
+                _listener.Prefixes.Add(string.Format("http://+:8788/"));
                 _isRunning = true;
                 Start();
             }
@@ -66,7 +67,12 @@ namespace CommunicationServer.Protocols
                         result += string.Format("httpmethod = {0}\r\n", httpmethod);
                         result += string.Format("rawurl = {0}\r\n", rawurl);
 
-                        RecieveMessage?.Invoke(text);
+                        string originalText = HttpUtility.UrlDecode(text.Split('=')[1], System.Text.Encoding.UTF8);
+                        RecieveMessage?.Invoke(originalText);
+
+                        // 클라이언트에게 응답 보내기
+                        HttpListenerResponse response = context.Response;
+                        response.StatusCode = 202;
 
                         context.Response.Close();
                     }

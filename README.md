@@ -1,3 +1,6 @@
 # .Net-Communication-Protocols
 
-Local 파일 사라진 건 해결해야함 ㅠㅠ
+총 3가지 방식의 프로토콜을 테스트 할 수 있는 프로그램
+- IPC
+- HTTP
+- TCP/IP
